@@ -36,8 +36,10 @@ if __name__ == "__main__":
     interval = 0.1
     sample_rate = 16000
     max_len = 20
+
+    result_queue = Queue()
     
-    inference_thread = InferenceThread(max_len)
+    inference_thread = InferenceThread(result_queue, max_len)
     record_thread = RecordThread(inference_thread.queue, interval, sample_rate)
     
     record_thread.start()
@@ -47,7 +49,11 @@ if __name__ == "__main__":
     
     try:
         while True:
-            continue
+            if result_queue.qsize() > 0:
+                result = result_queue.get()
+                print(result)
+            else:
+                continue
     except:
         # Thread 종료 진행
         record_thread.kill()
