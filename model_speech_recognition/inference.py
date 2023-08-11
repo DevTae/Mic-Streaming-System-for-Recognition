@@ -33,4 +33,8 @@ class InferenceThread(threading.Thread):
 
 # 해당 함수에서 ASR 에 대한 inference 함수를 호출하면 됨.
 def inference(audio):
+    print("inference called")
     pass
+
+
+
