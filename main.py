@@ -30,29 +30,30 @@ class RecordThread(threading.Thread):
     def kill(self):
         self.exit_signal = True
 
-# interval * max_len = 2 초에 대한 음성을 interval 간격으로 분석.
-interval = 0.1
-sample_rate = 16000
-max_len = 20
 
-inference_thread = InferenceThread(max_len)
-record_thread = RecordThread(inference_thread.queue, interval, sample_rate)
-
-record_thread.start()
-inference_thread.start()
-
-print("자동 음성인식 프로그램이 시작되었습니다.")
-
-try:
-    while True:
-        continue
-except:
-    # Thread 종료 진행
-    record_thread.kill()
-    inference_thread.kill()
+if __name__ == "__main__":
+    # interval * max_len = 2 초에 대한 음성을 interval 간격으로 분석.
+    interval = 0.1
+    sample_rate = 16000
+    max_len = 20
     
-record_thread.join()
-inference_thread.join()
+    inference_thread = InferenceThread(max_len)
+    record_thread = RecordThread(inference_thread.queue, interval, sample_rate)
+    
+    record_thread.start()
+    inference_thread.start()
+    
+    print("자동 음성인식 프로그램이 시작되었습니다.")
+    
+    try:
+        while True:
+            continue
+    except:
+        # Thread 종료 진행
+        record_thread.kill()
+        inference_thread.kill()
+        
+    record_thread.join()
+    inference_thread.join()
 
-print("자동 음성인식 프로그램이 종료되었습니다.")
-
+    print("자동 음성인식 프로그램이 종료되었습니다.")
