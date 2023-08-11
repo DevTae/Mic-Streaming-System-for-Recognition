@@ -10,6 +10,7 @@ class InferenceThread(threading.Thread):
         self.recorded_list = list()
         self.max_len = max_len
         self.exit_signal = False
+        self.Inference = Inference()
 
     def run(self):
         while True:
@@ -22,7 +23,7 @@ class InferenceThread(threading.Thread):
                     self.recorded_list[0] = np.append(self.recorded_list[0], self.recorded_list[i])
                 target = self.recorded_list[0]
                 self.recorded_list = self.recorded_list[-self.max_len+1:]
-                inference(target)
+                self.Inference(target)
                 
             if self.exit_signal == True:
                 break
@@ -31,10 +32,16 @@ class InferenceThread(threading.Thread):
         self.exit_signal = True
 
 
-# 해당 함수에서 ASR 에 대한 inference 함수를 호출하면 됨.
-def inference(audio):
-    print("inference called")
-    pass
+class Inference(object):
+    def __init__(self):
+        pass
+
+    # 해당 함수에서 ASR 에 대한 inference 함수를 호출하면 됨.
+    def __call__(self, audio):
+        print("inference called")
+        pass
+
+
 
 
 
