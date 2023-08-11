@@ -8,7 +8,7 @@ sys.path.append(os.path.join(os.getcwd(), "model_speech_recognition"))
 from inference import *
 
 # interval 간격 녹음하는 쓰레드
-class RecordThread(threading.Thread):
+class AudioRecordThread(threading.Thread):
     def __init__(self, queue: Queue, interval: float = 0.1, sample_rate: int = 16000, exit_signal: bool = False):
         threading.Thread.__init__(self)
         self.queue = queue
@@ -37,29 +37,29 @@ if __name__ == "__main__":
     sample_rate = 16000
     max_len = 20
 
-    result_queue = Queue()
+    audio_result_queue = Queue()
     
-    inference_thread = InferenceThread(result_queue, max_len)
-    record_thread = RecordThread(inference_thread.queue, interval, sample_rate)
+    audio_inference_thread = InferenceThread(audio_result_queue, max_len)
+    audio_record_thread = RecordThread(audio_inference_thread.queue, interval, sample_rate)
     
-    record_thread.start()
-    inference_thread.start()
+    audio_record_thread.start()
+    audio_inference_thread.start()
     
     print("자동 음성인식 프로그램이 시작되었습니다.")
     
     try:
         while True:
-            if result_queue.qsize() > 0:
-                result = result_queue.get()
+            if audio_result_queue.qsize() > 0:
+                result = audio_result_queue.get()
                 print(result)
             else:
                 continue
     except:
         # Thread 종료 진행
-        record_thread.kill()
-        inference_thread.kill()
+        audio_record_thread.kill()
+        audio_inference_thread.kill()
         
-    record_thread.join()
-    inference_thread.join()
+    audio_record_thread.join()
+    audio_inference_thread.join()
 
     print("자동 음성인식 프로그램이 종료되었습니다.")

@@ -3,7 +3,7 @@ import numpy as np
 from queue import Queue
 
 # ASR 모델 Inference Thread
-class InferenceThread(threading.Thread):
+class AudioInferenceThread(threading.Thread):
     def __init__(self, result_queue: Queue, max_len: int = 20):
         threading.Thread.__init__(self)
         self.queue = Queue()
@@ -34,7 +34,7 @@ class InferenceThread(threading.Thread):
         self.exit_signal = True
 
 
-class Inference(object):
+class AudioInference(object):
     def __init__(self):
         pass
 
