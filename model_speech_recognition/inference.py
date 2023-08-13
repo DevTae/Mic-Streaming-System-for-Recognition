@@ -11,7 +11,7 @@ class AudioInferenceThread(threading.Thread):
         self.recorded_list = list()
         self.max_len = max_len
         self.exit_signal = False
-        self.Inference = Inference()
+        self.Inference = AudioInference()
 
     def run(self):
         while True:
