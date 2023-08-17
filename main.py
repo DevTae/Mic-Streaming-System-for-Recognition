@@ -25,7 +25,7 @@ class AudioRecordThread(threading.Thread):
             self.datas = list()
 
     def run(self):
-        with sd.Stream(samplerate=self.sample_rate, dtype='float32', channels=1, callback=self.callback):
+        with sd.InputStream(samplerate=self.sample_rate, dtype='float32', channels=1, callback=self.callback):
             while self.exit_signal == False:
                 pass
                 
