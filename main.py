@@ -15,17 +15,19 @@ class AudioRecordThread(threading.Thread):
         self.interval = interval
         self.sample_rate = sample_rate
         self.exit_signal = exit_signal
+        self.datas = list()
 
-    def callback(self, indata, outdata, frames, time, status):
-        self.queue.put(outdata)
+    def callback(self, indata, frames, time, status):
+        self.datas += [ item for sublist in indata for item in sublist ]
+
+        if len(self.datas) >= self.interval * self.sample_rate:
+            self.queue.put(self.datas)
+            self.datas = list()
 
     def run(self):
-        while True:
-            with sd.Stream(samplerate=self.sample_rate, channels=1, callback=self.callback):
-                sd.sleep(int(self.interval * 1000))
-                
-            if self.exit_signal == True:
-                break
+        with sd.Stream(samplerate=self.sample_rate, dtype='float32', channels=1, callback=self.callback):
+            while self.exit_signal == False:
+                pass
                 
     def kill(self):
         self.exit_signal = True

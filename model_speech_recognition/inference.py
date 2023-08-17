@@ -40,4 +40,5 @@ class AudioInference(object):
 
     # 해당 함수에서 ASR 에 대한 inference 함수를 호출하면 됨.
     def __call__(self, audio) -> str:
+        print(audio)
         return "Done"
