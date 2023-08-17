@@ -15,8 +15,9 @@ class AudioInferenceThread(threading.Thread):
 
     def run(self):
         while True:
-            recorded_item = self.queue.get()
-            self.recorded_list.append(recorded_item)
+            while self.queue.qsize() != 0:
+                recorded_item = self.queue.get()
+                self.recorded_list.append(recorded_item)
             
             # 만약 recorded_list 길이가 max_len 보다 크면 inference 진행
             if len(self.recorded_list) >= self.max_len:
@@ -40,5 +41,4 @@ class AudioInference(object):
 
     # 해당 함수에서 ASR 에 대한 inference 함수를 호출하면 됨.
     def __call__(self, audio) -> str:
-        print(audio)
         return "Done"
