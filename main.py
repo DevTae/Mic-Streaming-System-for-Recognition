@@ -39,8 +39,8 @@ if __name__ == "__main__":
 
     audio_result_queue = Queue()
     
-    audio_inference_thread = InferenceThread(audio_result_queue, max_len)
-    audio_record_thread = RecordThread(audio_inference_thread.queue, interval, sample_rate)
+    audio_inference_thread = AudioInferenceThread(audio_result_queue, max_len)
+    audio_record_thread = AudioRecordThread(audio_inference_thread.queue, interval, sample_rate)
     
     audio_record_thread.start()
     audio_inference_thread.start()
