@@ -4,9 +4,9 @@
 - 아래에 `Response Time` 에 대한 실험을 진행하였음.
 
 - 코드 구성
-  - main.py
+  - `main.py`
     - 메인 함수
-  - model_speech_recognition/inference.py
+  - `model_speech_recognition/inference.py`
     - 음성인식 추론 함수
    
 <br/>
